@@ -6,14 +6,19 @@
         velocity: 0,
         angle: 0,
         element: document.getElementById("ship")
-    }
+    };
+    ship.element.style.top = "500px";
+    ship.element.style.left = "500px";
 
+    var asteroidz = [];
 
-    /* your ship element */ship.element.addEventListener('asteroidDetected', function (event) {
+    /* your ship element */
+    ship.element.addEventListener('asteroidDetected', function (event) {
         // You can detect when a new asteroid appears with this event.
         // The new HTML element will be in event.detail
-
+        asteroidz.push(event.detail);
         // What might you need/want to do in here?
+        // console.log(asteroidz);
 
     });
 
@@ -73,7 +78,7 @@
     document.querySelector('main').addEventListener('crash', function () {
 
         // What might you need/want to do in here?
-
+        ship.velocity = 0;
     });
 
     /**
@@ -87,8 +92,12 @@
     function gameLoop() {
         // This function for getting ship movement is given to you (at the bottom).
         // NOTE: you will need to change these arguments to match your ship object!
-        // var move = getShipMovement(shipsCurrentVelocity, shipsCurrentAngle);
+        var move = getShipMovement(ship.velocity, ship.angle);
 
+        ship.element.style.top = (parseInt(ship.element.style.top) - move.top) + "px";
+        ship.element.style.left = (parseInt(ship.element.style.left) + move.left) + "px";
+        console.log(move.top);
+        console.log(move.left);
         // Move the ship!
 
 
@@ -111,9 +120,23 @@
      * @return void
      */
     function checkForCollisions() {
+    		var shipPosition = ship.element.getBoundingClientRect();
 
         // Implement me!
+        for (var i = 0; i < asteroidz.length; i++) {
+        	var asspo = asteroidz[i].getBoundingClientRect();
+        	if (!(asspo.left > shipPosition.right || 
+        		asspo.right < shipPosition.left ||
+        		asspo.top > shipPosition.bottom ||
+        		asspo.bottom < shipPosition.top)) 
+        	{
+        		 	
+        		 	crash(asteroidz[i]);
+        		 }
+        }
 
+// check how to stop a for loop when you don't want to keep going.
+	
     }
 
 
