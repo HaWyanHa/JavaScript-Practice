@@ -41,7 +41,9 @@
                 ship.velocity = 10;
             } else {
             ship.velocity = ship.velocity + 1;
-            console.log(ship.velocity);        
+            console.log(ship.velocity); 
+            console.log(ship.element.style.top); 
+            console.log(window.innerHeight + "px");     
                     }
         }
         else if (event.keyCode === 40) {
@@ -69,6 +71,9 @@
     }
     document.querySelector('body').addEventListener('keyup', handleKeys);
 
+
+
+
     /**
      * This event handler will execute when a crash occurs, however
      * YOU MUST call the crash() function when you detect a crash (see below).
@@ -93,18 +98,36 @@
         // This function for getting ship movement is given to you (at the bottom).
         // NOTE: you will need to change these arguments to match your ship object!
         var move = getShipMovement(ship.velocity, ship.angle);
+       
+        
 
         ship.element.style.top = (parseInt(ship.element.style.top) - move.top) + "px";
         ship.element.style.left = (parseInt(ship.element.style.left) + move.left) + "px";
-        console.log(move.top);
-        console.log(move.left);
         // Move the ship!
 
 
         // Time to check for any collisions (see below)...
         checkForCollisions();
+        max ();
     }
+    	// Below is my greatest win in the class so far, I did this with no help from my cohorts, just reading online and looking at code. The only problem I had was that I wasn't calling the function in which Jordan reminded me I had to do.
+    	function max () {
+    	if (parseInt(ship.element.style.top) < 0) {
+    		ship.element.style.top = window.innerHeight + "px";
+    	} else if
+    		(parseInt(ship.element.style.left) < 0){
+    		ship.element.style.left = window.innerWidth + "px";
+    	} else if
+    		(parseInt(ship.element.style.top) > window.innerHeight) {
+    		ship.element.style.top = "0px";
+    	} else if (parseInt(ship.element.style.left) > window.innerWidth) {
+    		ship.element.style.left = "0px";
+    	}
+    }
+    	console.log(window.innerHeight);
+    	console.log(window.innerWidth);
 
+    console.log(ship.element.style.top);
     /**
      * This function checks for any collisions between asteroids and the ship.
      * If a collision is detected, the crash method should be called with the
@@ -132,11 +155,11 @@
         	{
         		 	
         		 	crash(asteroidz[i]);
+        		 	clearInterval(loopHandle);
         		 }
         }
 
-// check how to stop a for loop when you don't want to keep going.
-	
+// check how to stop a for loop when you don't want to keep going. Did that with a quick google search.
     }
 
 
